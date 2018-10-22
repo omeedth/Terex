@@ -8,6 +8,8 @@ class Main extends hxd.App {
 
   var player : Player;
 
+  var camera : h2d.ObjectFollower;
+
   override function init() {
       // var tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
       // tf.text = "Hello World !";
@@ -15,10 +17,12 @@ class Main extends hxd.App {
       updateCnt = 0;
 
       // When I have this line the tile doesn't stay on the screen
-      player = new Player(100,100,8,0.2,hxd.Key.UP,hxd.Key.RIGHT,hxd.Key.DOWN,hxd.Key.LEFT);
+      player = new Player(100,100,8,2.5,hxd.Key.UP,hxd.Key.RIGHT,hxd.Key.DOWN,hxd.Key.LEFT);
 
       // To draw the player you need to pass in a type of h2d.Object
       s2d.addChild(player.getBMP());
+
+      camera = new h2d.ObjectFollower(player);
 
   }
 

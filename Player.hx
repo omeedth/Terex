@@ -29,9 +29,9 @@ class Player {
   var max : Float;
   var incr : Float;
   var num : Float;
-  var isPos : Bool;
 
   public function new(height:Int,width:Int,speed:Float,acceleration:Float,up:Int,right:Int,down:Int,left:Int) {
+    super();
 
     // Dimensions
     this.height = height;
@@ -57,7 +57,6 @@ class Player {
     max = -10;
     incr = .1;
     num = 0;
-    isPos = true;
 
     // allocate a Texture with red color and creates a 100x100 Tile from it
     tile = h2d.Tile.fromColor(0xFF0000, width, height);
@@ -81,12 +80,13 @@ class Player {
   public function update(dt:Float,updateCnt:Int) {
     //bmp.rotation += 0.1;
     getInput();
-    //currentMovement();
+    accelerate();
 
     if(updateCnt % 5 == 0) {
-      trace("num: " + num);
-      trace("max: " + Math.max(num + increment,-10));
-      num = goto(num,incr,max);
+      // trace("num: " + num);
+      //trace("max: " + Math.max(num + incr,-10));
+      //num += incr;
+      // num = goto(num,incr,max);
     }
 
     if(updateCnt % 60 == 0) {
@@ -108,10 +108,10 @@ class Player {
 
     if(hxd.Key.isDown(up)) {
       // yMove = -speed;
-      yDir = 1;
+      yDir = -1;
     } else if(hxd.Key.isDown(down)) {
       // yMove = speed;
-      yDir = -1;
+      yDir = 1;
     }
 
     if(hxd.Key.isDown(right)) {
@@ -123,23 +123,31 @@ class Player {
     }
   }
 
-  function currentMovement() {
-    if((xMove > 0) && (xDir > 0)) {
+  function accelerate() {
+
+    // trace("xMove: " + xMove);
+    // trace("yMove: " + yMove);
+
+    if(xDir > 0) {
       xMove = goto(xMove,acceleration,speed);
-    } else if ((xMove < 0) && (xDir < 0)) {
+    } else if (xDir < 0) {
       xMove = goto(xMove,acceleration,-speed);
+    } else {
+      xMove = goto(xMove,acceleration,0);
     }
 
-    if((yMove > 0) && (yDir > 0)) {
+    if(yDir > 0) {
       yMove = goto(yMove,acceleration,speed);
-    } else if ((yMove < 0) && (yDir < 0)) {
+    } else if (yDir < 0) {
       yMove = goto(yMove,acceleration,-speed);
+    } else {
+      yMove = goto(yMove,acceleration,0);
     }
   }
 
   function goto(num:Float,increment:Float,max:Float):Float {
     var result1 = Math.min(num + increment,max);
-    var result2 = Math.max(num - increment,-max);
+    var result2 = Math.max(num - increment,max);
     return ((num < max) ? result1 : result2);
   }
 
