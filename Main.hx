@@ -22,8 +22,6 @@ class Main extends hxd.App {
       // To draw the player you need to pass in a type of h2d.Object
       s2d.addChild(player.getBMP());
 
-      camera = new h2d.ObjectFollower(player);
-
   }
 
   // dt = "Delta Time" ???

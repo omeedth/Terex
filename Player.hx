@@ -31,7 +31,6 @@ class Player {
   var num : Float;
 
   public function new(height:Int,width:Int,speed:Float,acceleration:Float,up:Int,right:Int,down:Int,left:Int) {
-    super();
 
     // Dimensions
     this.height = height;
