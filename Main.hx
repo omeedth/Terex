@@ -1,3 +1,6 @@
+import h2d.TileGroup;
+import hxd.Key;
+
 // I am making my main be the timer and manager of the game
 class Main extends hxd.App {
   // Debugging
@@ -7,22 +10,32 @@ class Main extends hxd.App {
   var tf : h2d.Text;
 
   var player : Player;
+  var char:h2d.Bitmap;
 
-  var camera : h2d.ObjectFollower;
+  var camera : Camera;
+
+  var map:TileGroup;
 
   override function init() {
-      // var tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
-      // tf.text = "Hello World !";
-
       updateCnt = 0;
 
-      // When I have this line the tile doesn't stay on the screen
-      player = new Player(100,100,8,2.5,hxd.Key.UP,hxd.Key.RIGHT,hxd.Key.DOWN,hxd.Key.LEFT);
+      camera = new Camera(s2d);
 
-      // To draw the player you need to pass in a type of h2d.Object
-      s2d.addChild(player.getBMP());
+       var tile = h2d.Tile.fromColor(0x00ff00, 16, 16);
 
-      camera = new h2d.ObjectFollower(player);
+      map = new TileGroup(tile, camera);
+
+      for (i in 0...1000)
+      {
+          map.add(Std.int(s2d.width * Math.random()), Std.int(s2d.height * Math.random()), tile);
+      }
+
+      player = new Player(100,100,8,hxd.Key.UP,hxd.Key.RIGHT,hxd.Key.DOWN,hxd.Key.LEFT,camera);
+      player.tile = player.tile.center();
+      player.scaleX = player.scaleY = 0.50;
+      player.tile = player.tile.center();
+      player.x = 250;
+      player.y = 250;
 
   }
 
@@ -31,6 +44,14 @@ class Main extends hxd.App {
     // increment the display bitmap rotation by 0.1 radians
     player.update(dt,updateCnt);
     updateCnt++;
+    camera.viewX = player.x;
+    camera.viewY = player.y;
+
+    if(updateCnt % 60 == 0) {
+      // trace("(" + camera.viewX + "," + camera.viewY + ")");
+      // trace("(" + player.x + "," + player.y + ")");
+    }
+    
   }
 
   static function main() {
