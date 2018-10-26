@@ -30,7 +30,7 @@ class Main extends hxd.App {
           map.add(Std.int(s2d.width * Math.random()), Std.int(s2d.height * Math.random()), tile);
       }
 
-      player = new Player(100,100,8,hxd.Key.UP,hxd.Key.RIGHT,hxd.Key.DOWN,hxd.Key.LEFT,camera);
+      player = new Player(100,100,8,.8,hxd.Key.UP,hxd.Key.RIGHT,hxd.Key.DOWN,hxd.Key.LEFT,camera);
       player.tile = player.tile.center();
       player.scaleX = player.scaleY = 0.50;
       player.tile = player.tile.center();
